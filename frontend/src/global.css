@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  /* Accent */
+  --color-green: #aaff00;
+  --color-green-dim: #4a6e00;
+  --color-orange: #ff9500;
+  --color-danger: #ff3b30;
+
+  /* Dark surfaces */
+  --color-base: #0e0e0e;
+  --color-surface: #181818;
+  --color-surface-2: #202020;
+  --color-surface-3: #282828;
+
+  /* Text */
+  --color-muted: #555555;
+  --color-mid: #888888;
+  --color-bright: #cccccc;
+
+  /* Borders */
+  --color-edge: #242424;
+  --color-edge-2: #303030;
+
+  /* Fonts */
+  --font-retro: "Share Tech Mono", "Courier New", monospace;
+  --font-display: "Orbitron", monospace;
+
+  /* Font sizes for terminal micro-text */
+  --text-label: 0.625rem; /* 8px  — indicator labels, axis text   */
+  --text-micro: 0.625rem; /* 9px  — sub-labels, waiting messages  */
+  --text-tiny: 0.625rem; /* 10px — player names, small info      */
+  --text-readout: 3.25rem; /* 52px — knob magnitude display        */
+
+  /* Letter-spacing for terminal aesthetic */
+  --tracking-ui: 0.1em; /* dense list items                     */
+  --tracking-code: 0.2em; /* standard label tracking              */
+  --tracking-caps: 0.25em; /* uppercase headings                   */
+  --tracking-title: 0.3em; /* large display headings               */
+
+  /* Animations */
+  --animate-blink: blink 1.2s step-end infinite;
+}
+
+@layer base {
+  body {
+    background: var(--color-base);
+    color: var(--color-bright);
+    font-family: var(--font-retro);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 30px;
+    gap: 16px;
+  }
+}
+
+/* ── Keyframes ─────────────────────────────────────────── */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
