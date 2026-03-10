@@ -1,5 +1,14 @@
 import { state, roomCode, KNOB_MIN, saveScaleConfig } from "./state.svelte.js";
 
+window.addEventListener("beforeunload", () => {
+  if (state.username && roomCode) {
+    navigator.sendBeacon(
+      `${location.origin}/rooms/${roomCode}/leave`,
+      new Blob([JSON.stringify({ username: state.username })], { type: "application/json" })
+    );
+  }
+});
+
 let sse = null;
 let toastTimer = null;
 let prevPhase = -1;
