@@ -57,7 +57,7 @@ const selectedFreq = $derived(
       if (e.key === "t" || e.key === "T") {
         e.preventDefault();
         if (canTransmit) handleTransmit();
-      } else if (e.key === "h" || e.key === "H") {
+      } else if (e.key === "r" || e.key === "R") {
         e.preventDefault();
         handleHarmonize();
       } else if ((e.key === "y" || e.key === "Y") && harmonizeConfirm) {
@@ -120,7 +120,7 @@ const selectedFreq = $derived(
     >
       <!-- Main actions -->
       <div class="flex flex-wrap items-center gap-2.5">
-        <Button variant="ghost" onclick={handleHarmonize}>HARMONIZE [H]</Button>
+        <Button variant="ghost" onclick={handleHarmonize}>REVEAL [R]</Button>
         <div class="flex items-stretch gap-2">
           <Button onclick={handleTransmit} disabled={!canTransmit} class={shouldPulse ? 'pulse' : ''}>TRANSMIT [T]</Button>
           <div class="transmitted-box" class:has-value={transmittedValue !== null}>
@@ -136,11 +136,11 @@ const selectedFreq = $derived(
   <div class="backdrop" role="presentation" onclick={() => harmonizeConfirm = false} onkeydown={null}>
     <div class="modal" role="dialog" onclick={(e) => e.stopPropagation()} onkeydown={null}>
       <div class="modal-header">
-        <div class="modal-title">HARMONIZE</div>
+        <div class="modal-title">REVEAL</div>
         <button class="close-btn" onclick={() => harmonizeConfirm = false}>✕</button>
       </div>
       <div class="modal-body">
-        <p class="modal-message">Not all operators have transmitted a frequency. Harmonize anyway?</p>
+        <p class="modal-message">Not all operators have transmitted a frequency. Reveal anyway?</p>
         <div class="untimed-list">
           {#each players.filter(p => !p.hasTuned) as p (p.name)}
             <div class="untimed-item">

@@ -49,7 +49,7 @@
       class="hdr-title font-display tracking-caps text-green font-bold"
       style="font-size:clamp(16px,3vw,22px)"
     >
-      HARMONICS
+     VOTING MACHINE 
     </span>
   </div>
   {#if roomCode}
