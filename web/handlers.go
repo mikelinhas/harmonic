@@ -66,6 +66,7 @@ func NewRouter(reg *server.Registry) http.Handler {
 	})
 
 	mux.Handle("/assets/", http.FileServer(http.Dir("web/static")))
+	mux.Handle("/favicon.ico", http.FileServer(http.Dir("web/static")))
 
 	return mux
 }

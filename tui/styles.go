@@ -80,10 +80,9 @@ var (
 //   - a label row (dim, selected in neon+bold)
 //   - a track row (─ everywhere, ┃ at cursor in neon)
 //
-// Each of the 9 card slots is exactly colW chars wide.
+// colW is the width of each slot in chars (typically 3-5).
 
-func renderFader(cursor int, scale []string) string {
-	const colW = 5
+func renderFader(cursor int, scale []string, colW int) string {
 	neonBold := lipgloss.NewStyle().Foreground(neon).Bold(true)
 
 	var labelParts, trackParts []string
@@ -92,12 +91,23 @@ func renderFader(cursor int, scale []string) string {
 		cr := []rune(freq)
 		lpad := (colW - len(cr)) / 2
 		rpad := colW - len(cr) - lpad
+		if lpad < 0 {
+			lpad = 0
+			rpad = 0
+		}
 		label := strings.Repeat(" ", lpad) + freq + strings.Repeat(" ", rpad)
+		// Clip to colW if overflow
+		if len([]rune(label)) > colW {
+			label = string([]rune(label)[:colW])
+		}
 
+		midPos := colW / 2
 		if i == cursor {
 			labelParts = append(labelParts, neonBold.Render(label))
 			trackParts = append(trackParts,
-				dimStyle.Render("──")+neonStyle.Render("┃")+dimStyle.Render("──"))
+				dimStyle.Render(strings.Repeat("─", midPos))+
+					neonStyle.Render("┃")+
+					dimStyle.Render(strings.Repeat("─", colW-midPos-1)))
 		} else {
 			labelParts = append(labelParts, dimStyle.Render(label))
 			trackParts = append(trackParts, dimStyle.Render(strings.Repeat("─", colW)))
@@ -105,4 +115,21 @@ func renderFader(cursor int, scale []string) string {
 	}
 
 	return strings.Join(labelParts, "") + "\n" + strings.Join(trackParts, "")
+}
+
+// ── Signal bar ────────────────────────────────────────────────────────────────
+//
+// Vertical bar that fills from the bottom. filledPct is 0-100.
+
+func renderSigBar(filledPct, barH int) string {
+	filled := (filledPct * barH) / 100
+	lines := make([]string, barH)
+	for row := 0; row < barH; row++ {
+		if row >= barH-filled {
+			lines[row] = neonStyle.Render("█")
+		} else {
+			lines[row] = dimStyle.Render("░")
+		}
+	}
+	return strings.Join(lines, "\n")
 }
