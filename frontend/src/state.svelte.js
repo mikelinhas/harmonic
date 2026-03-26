@@ -43,6 +43,7 @@ export const state = $state({
   transmittedFreq: null,
   roundNum: 1,
   connected: false,
+  inRoom: false,
   toast: "",
   toastVisible: false,
   scaleItems: cfg.scale,

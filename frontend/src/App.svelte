@@ -12,6 +12,9 @@
 
   const phase = $derived(appState.snap?.phase ?? -1);
 
+  let wasConnected = $state(false);
+  $effect(() => { if (appState.connected) wasConnected = true; });
+
   // Room picker state (used only when at root /)
   let roomInput = $state("");
 
@@ -108,10 +111,16 @@
     class="border-edge flex flex-wrap items-center justify-between gap-2 border-t bg-[#111] px-7 py-2"
   >
     <div class="text-label tracking-code text-muted flex items-center gap-1.5">
-      <div
-        class="bg-green size-1.5 rounded-full shadow-[0_0_4px_#aaff00]"
-      ></div>
-      POWER: ON
+      {#if appState.connected}
+        <div class="bg-green size-1.5 rounded-full shadow-[0_0_4px_#aaff00]"></div>
+        POWER: ON
+      {:else if wasConnected}
+        <div class="size-1.5 rounded-full border border-current opacity-40"></div>
+        POWER: OFF
+      {:else}
+        <div class="bg-green size-1.5 rounded-full shadow-[0_0_4px_#aaff00]"></div>
+        POWER: ON
+      {/if}
     </div>
     {#if roomCode}
       <div

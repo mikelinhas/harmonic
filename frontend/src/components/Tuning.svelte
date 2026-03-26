@@ -54,6 +54,7 @@ const selectedFreq = $derived(
     const handleKeydown = (e) => {
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       if (appState.showSettings) return;
+      if (e.metaKey || e.ctrlKey) return;
       if (e.key === "t" || e.key === "T") {
         e.preventDefault();
         if (canTransmit) handleTransmit();

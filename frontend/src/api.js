@@ -37,6 +37,17 @@ function scaleChanged(a, b) {
 }
 
 function onSnap(s) {
+  // Detect if our session was lost (e.g. server restarted) and auto-rejoin.
+  if (state.inRoom && state.username) {
+    const stillIn = s.players.some(p => p.name === state.username);
+    if (!stillIn) {
+      state.inRoom = false;
+      showToast("SESSION LOST — REJOINING");
+      doJoin();
+      return;
+    }
+  }
+
   const phaseChanged = s.phase !== prevPhase;
   prevPhase = s.phase;
   state.snap = s;
@@ -92,6 +103,7 @@ export async function tryReconnect() {
   if (!val || !roomCode) return false;
   try {
     await api("POST", "reconnect", { username: val });
+    state.inRoom = true;
     connectSSE();
     return true;
   } catch {
@@ -109,6 +121,7 @@ export async function doJoin() {
   localStorage.setItem("harmonic_username", val);
   try {
     await api("POST", "join", { username: val });
+    state.inRoom = true;
     connectSSE();
   } catch (err) {
     if (err.status === 409) {
