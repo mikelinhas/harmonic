@@ -9,8 +9,9 @@ import (
 type Phase int
 
 const (
-	PhaseTuning  Phase = iota
-	PhaseHarmony
+	_            Phase = iota // 0 reserved (legacy)
+	PhaseTuning               // 1
+	PhaseHarmony              // 2
 )
 
 type Player struct {

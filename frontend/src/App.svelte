@@ -95,7 +95,7 @@
     </div>
   {:else if !appState.snap}
     <Join />
-  {:else if phase === 0 || phase === 1}
+  {:else if phase === 1}
     <Tuning />
   {:else if phase === 2}
     <Harmony />
