@@ -43,7 +43,6 @@ function onSnap(s) {
     const stillIn = s.players.some(p => p.name === state.username);
     if (!stillIn) {
       state.inRoom = false;
-      showToast("SESSION LOST — REJOINING");
       doJoin();
       return;
     }
@@ -97,7 +96,7 @@ export function connectSSE() {
   sse.onerror = () => {
     if (state.connected) {
       signalLost = true;
-      showToast("SIGNAL LOST");
+      showToast("SIGNAL LOST — RECONNECTING");
     }
     state.connected = false;
     sse.close();
