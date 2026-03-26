@@ -12,6 +12,7 @@ window.addEventListener("beforeunload", () => {
 let sse = null;
 let toastTimer = null;
 let prevPhase = -1;
+let signalLost = false;
 
 export function showToast(msg) {
   state.toast = msg;
@@ -83,6 +84,10 @@ export function connectSSE() {
   sse = new EventSource(`${location.origin}/rooms/${roomCode}/events`);
   sse.onopen = () => {
     state.connected = true;
+    if (signalLost) {
+      signalLost = false;
+      showToast("SIGNAL RESTORED");
+    }
   };
   sse.onmessage = (e) => {
     try {
@@ -90,6 +95,10 @@ export function connectSSE() {
     } catch {}
   };
   sse.onerror = () => {
+    if (state.connected) {
+      signalLost = true;
+      showToast("SIGNAL LOST");
+    }
     state.connected = false;
     sse.close();
     setTimeout(() => connectSSE(), 3000);
