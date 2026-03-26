@@ -3,7 +3,6 @@
   import { state as appState, roomCode } from "./state.svelte.js";
   import { tryReconnect } from "./api.js";
   import Join from "./components/Join.svelte";
-  import Lobby from "./components/Lobby.svelte";
   import Tuning from "./components/Tuning.svelte";
   import Harmony from "./components/Harmony.svelte";
   import Toast from "./components/Toast.svelte";
@@ -96,9 +95,7 @@
     </div>
   {:else if !appState.snap}
     <Join />
-  {:else if phase === 0}
-    <Lobby />
-  {:else if phase === 1}
+  {:else if phase === 0 || phase === 1}
     <Tuning />
   {:else if phase === 2}
     <Harmony />

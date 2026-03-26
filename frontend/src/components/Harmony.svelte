@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { state, roomCode } from "../state.svelte.js";
-  import { doStart } from "../api.js";
+  import { doReset } from "../api.js";
   import Button from "./Button.svelte";
   import SigBar from "./SigBar.svelte";
 
@@ -38,7 +38,7 @@
       if (state.showSettings) return;
       if (e.key === "n" || e.key === "N") {
         e.preventDefault();
-        doStart();
+        doReset();
       }
     };
     window.addEventListener("keydown", handleKeydown);
@@ -88,7 +88,7 @@
 
   <!-- Actions -->
   <div class="flex flex-wrap justify-center gap-3 px-7 py-5">
-    <Button class="px-9 text-sm" onclick={doStart}>NEW SESSION [N]</Button>
+    <Button class="px-9 text-sm" onclick={doReset}>NEW SESSION [N]</Button>
   </div>
 </div>
 

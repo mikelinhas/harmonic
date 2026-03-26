@@ -177,10 +177,9 @@ export async function doTune() {
   }
 }
 
-export async function doStart() {
+export async function doReset() {
   try {
-    await api("POST", "start", {});
-    state.hasTuned = false;
+    await api("POST", "reset", {});
   } catch {
     showToast("ERROR");
   }

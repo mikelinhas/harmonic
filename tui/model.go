@@ -97,8 +97,6 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyMsg:
 		switch m.snapshot.Phase {
-		case server.PhaseLobby:
-			return m.updateLobby(msg)
 		case server.PhaseTuning:
 			return m.updateTuning(msg)
 		case server.PhaseHarmony:
@@ -113,8 +111,6 @@ const maxContentWidth = 80
 func (m *Model) View() string {
 	var content string
 	switch m.snapshot.Phase {
-	case server.PhaseLobby:
-		content = lobbyView(m)
 	case server.PhaseTuning:
 		content = tuningView(m)
 	case server.PhaseHarmony:

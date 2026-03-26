@@ -9,8 +9,7 @@ import (
 type Phase int
 
 const (
-	PhaseLobby   Phase = iota
-	PhaseTuning
+	PhaseTuning  Phase = iota
 	PhaseHarmony
 )
 
@@ -35,7 +34,7 @@ func newRoom(code string) *Room {
 		code:        code,
 		players:     make(map[string]*Player),
 		frequencies: make(map[string]string),
-		phase:       PhaseLobby,
+		phase:       PhaseTuning,
 		scale:       []string{"1", "2", "3", "5", "8", "13", "21"},
 		extras:      []string{"?", "☕"},
 	}
@@ -113,18 +112,6 @@ func (r *Room) SetFrequency(name, freq string) {
 	r.Broadcast()
 }
 
-func (r *Room) StartTuning() {
-	r.mu.Lock()
-	r.phase = PhaseTuning
-	// Clear previous frequencies.
-	r.frequencies = make(map[string]string)
-	for _, p := range r.players {
-		p.HasTuned = false
-	}
-	r.mu.Unlock()
-	r.Broadcast()
-}
-
 func (r *Room) Harmonize() {
 	r.mu.Lock()
 	r.phase = PhaseHarmony
@@ -134,7 +121,7 @@ func (r *Room) Harmonize() {
 
 func (r *Room) Reset() {
 	r.mu.Lock()
-	r.phase = PhaseLobby
+	r.phase = PhaseTuning
 	r.frequencies = make(map[string]string)
 	for _, p := range r.players {
 		p.HasTuned = false

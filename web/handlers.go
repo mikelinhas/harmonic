@@ -46,8 +46,6 @@ func NewRouter(reg *server.Registry) http.Handler {
 			handleJoin(w, r, reg, code)
 		case action == "tune" && r.Method == http.MethodPost:
 			handleTune(w, r, reg, code)
-		case action == "start" && r.Method == http.MethodPost:
-			handleStart(w, r, reg, code)
 		case action == "harmonize" && r.Method == http.MethodPost:
 			handleHarmonize(w, r, reg, code)
 		case action == "reset" && r.Method == http.MethodPost:
@@ -161,12 +159,6 @@ func handleTune(w http.ResponseWriter, r *http.Request, reg *server.Registry, co
 	writeJSON(w, snap)
 }
 
-func handleStart(w http.ResponseWriter, _ *http.Request, reg *server.Registry, code string) {
-	room := reg.GetOrCreate(code)
-	room.StartTuning()
-	snap := room.GetSnapshot("")
-	writeJSON(w, snap)
-}
 
 func handleHarmonize(w http.ResponseWriter, _ *http.Request, reg *server.Registry, code string) {
 	room := reg.GetOrCreate(code)
